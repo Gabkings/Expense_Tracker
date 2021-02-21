@@ -41,6 +41,6 @@ public class CategoryImpl implements Category{
 
     @Override
     public void removeCategoryWithAllTransactions(Integer userId, Integer categoryId) throws EtResourceNotFoundException {
-
+        categoryRepository.removeById(userId, categoryId);
     }
 }

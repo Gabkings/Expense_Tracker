@@ -71,10 +71,14 @@ public class CategoryRepositoryImpl implements CategoryRepository{
     public void update(Integer userId, Integer categoryId, CategoryEntity category) throws EtBadRequestException {
         jdbcTemplate.update(SQL_UPDATE, category.getTitle(), category.getDescription(), userId, categoryId);
     }
-
     @Override
     public void removeById(Integer userId, Integer categoryId) {
+        this.removeAllCatTransactions(categoryId);
+        jdbcTemplate.update(SQL_DELETE_CATEGORY, new Object[]{userId, categoryId});
+    }
 
+    private void removeAllCatTransactions(Integer categoryId) {
+        jdbcTemplate.update(SQL_DELETE_ALL_TRANSACTIONS, new Object[]{categoryId});
     }
 
     private RowMapper<CategoryEntity> categoryRowMapper = ((rs, rowNum) -> {
